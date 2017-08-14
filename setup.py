@@ -8,7 +8,7 @@ os.environ['TK_LIBRARY'] = r'C:\Users\kdeepak\Devapps\Anaconda3\tcl\tk8.6'
 
 build_exe_options = {"packages": ["pywinauto", "read_ini", "os"],
                      "excludes": ["tkinter", "scipy", "numpy", "json", "PyQt5", "urllib", "email"],
-                     "include_files": ["toolsetup.ini", "launch.ico"]}
+                     "include_files": ["toolsetup.ini", "launch.ico", "launch.png", "SingleviewSetup.ini"]}
 
 target = Executable(
     script="SysTray.py",
