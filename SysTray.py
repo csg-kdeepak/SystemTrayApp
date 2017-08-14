@@ -2,8 +2,9 @@ import wx
 import wx.adv
 import login_sv
 from read_ini import get_login_data
+from pywinauto import application
 
-TRAY_TOOLTIP = 'System Tray Demo'
+TRAY_TOOLTIP = 'Singleview Launcher'
 TRAY_ICON = 'launch.ico'
 
 
@@ -17,7 +18,6 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
     def __init__(self):
         super(TaskBarIcon, self).__init__()
         self.set_icon(TRAY_ICON)
-        self.Bind(wx.EVT_MOUSE_AUX2_DOWN, self.on_left_down)
         self.set_app_parm()
 
     def CreatePopupMenu(self):
@@ -28,7 +28,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         x = 1
         for names in self.env_dict.keys():
             menu.Append(x, names, 'status entry')
-            self.Bind(wx.EVT_MENU_RANGE, lambda event=x: login_sv.init_sv_login(event, self.sv_app, self.env_dict),
+            self.Bind(wx.EVT_MENU_RANGE, lambda event=x: self.call_sv_app(event),
                       id=1, id2=len(self.env_dict.keys()))
             x += 1
 
@@ -36,6 +36,12 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         menu.Bind(wx.EVT_MENU, self.on_exit, id=item.GetId())
         menu.AppendItem(item)
         return menu
+
+    def call_sv_app(self, event):
+        try:
+            login_sv.init_sv_login(event, self.sv_app, self.env_dict)
+        except application.AppStartError as err:
+            show_msg_box("Singview Application Start Failure : {}".format(err))
 
     def set_icon(self, path):
         icon = wx.Icon(TRAY_ICON, wx.BITMAP_TYPE_ICO, 16, 16)
@@ -50,14 +56,12 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         except IOError as err:
             print("OS error: {0}".format(err))
 
-    def on_left_down(self, event):
-        print('Tray icon was left-clicked.')
-
-    def on_hello(self, event):
-        print('Hello, world!')
-
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)
+
+
+def show_msg_box(msg):
+    wx.MessageBox(msg, 'ERROR:', wx.OK | wx.ICON_ERROR)
 
 
 def main():
