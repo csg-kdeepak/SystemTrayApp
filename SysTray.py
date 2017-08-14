@@ -14,7 +14,6 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
     env_dict = {}  # List of SV environments
     sv_app = ''  # Location of SV billing application
 
-
     def __init__(self):
         super(TaskBarIcon, self).__init__()
         self.set_icon(TRAY_ICON)
