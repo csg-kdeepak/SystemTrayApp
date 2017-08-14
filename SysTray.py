@@ -53,7 +53,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             for entry in env_list:
                 self.env_dict[entry[0]] = entry[1:]
         except IOError as err:
-            print("OS error: {0}".format(err))
+            show_msg_box("OS error: {0}".format(err))
 
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)
