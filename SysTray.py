@@ -5,7 +5,7 @@ from read_ini import get_login_data
 from pywinauto import application
 
 TRAY_TOOLTIP = 'Singleview Launcher'
-TRAY_ICON = 'launch.ico'
+TRAY_ICON = 'launch.png'
 
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
@@ -43,7 +43,9 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
             show_msg_box("Singview Application Start Failure : {}".format(err))
 
     def set_icon(self, path):
-        icon = wx.Icon(TRAY_ICON, wx.BITMAP_TYPE_ICO, 16, 16)
+        icon = wx.EmptyIcon()
+        icon.CopyFromBitmap(wx.Bitmap(TRAY_ICON, wx.BITMAP_TYPE_PNG))
+        # icon = wx.Icon(TRAY_ICON, wx.BITMAP_TYPE_PNG, 16, 16)
         self.SetIcon(icon, TRAY_TOOLTIP)
 
     def set_app_parm(self):
